@@ -74,7 +74,7 @@ fn multiplySigned(s1: Signed, s2: Signed) -> Signed {
 
 
 fn divideSigned(s1: Signed, s2: Signed) -> Signed {
-    constrain s2.value != 0;
+    assert (s2.value != 0);
     let sn = Signed {
         sign: (s1.sign == s2.sign),
         value: s1.value/s2.value,
@@ -83,7 +83,7 @@ fn divideSigned(s1: Signed, s2: Signed) -> Signed {
 }
 
 fn modSigned(s1: Signed, s2: Signed) -> Signed {
-    constrain s2.value != 0;
+    assert (s2.value != 0);
     
     if (s1.sign == s2.sign){
         if (s1.sign){
