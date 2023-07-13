@@ -198,3 +198,69 @@ fn compareSigned(s1: Signed, s2: Signed) -> u32 {
         
     }
 }
+
+
+// the max shift has been kept to 16 for efficiency reasons, as well as
+// lack of realistic use case beyond that
+fn leftShiftSigned(s: Signed, n: u32) -> Signed {
+    assert (n < 16);
+    let mut pow = 1;
+    for i in 0..16{
+        let mut j = i as u32;
+        if j < n {
+            pow = pow * 2;
+        }
+    };
+    if n == 0{
+        s
+    }
+    else {
+        let sn = Signed {
+            sign: s.sign,
+            value: s.value *  pow,
+        };
+        sn
+    }
+    
+}
+
+// the max shift has been kept to 16 for efficiency reasons, as well as
+// lack of realistic use case beyond that
+fn rightShiftSigned(s: Signed, n: u32) -> Signed {
+    assert (n < 16);
+    let mut pow = 1;
+    for i in 0..16{
+        let mut j = i as u32;
+        if j < n {
+            pow = pow * 2;
+        }
+    };
+    let mut val_final = s.value/pow;
+    let mut rem = 0;
+    if val_final * pow != s.value {
+        rem = 1;
+    }
+    
+    
+    if s.sign {
+        if (rem == 1) & (val_final != 0){
+            val_final -= 0;
+        }
+    }
+    else {
+        if (rem == 1) {
+            val_final += 1;
+        }
+    }
+    if n == 0{
+        s
+    }
+    else {
+        let sn = Signed {
+            sign: s.sign,
+            value: val_final,
+        };
+        sn
+    }
+    
+}
