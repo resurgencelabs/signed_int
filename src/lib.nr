@@ -163,17 +163,11 @@ fn signSigned(s: Signed) -> bool {
 // if a < b return 2
 // if a == b return 0
 fn compareSigned(s1: Signed, s2: Signed) -> u32 {
-    if (s1.sign != s2.sign){
-        if (s1.sign){
-            1
-        }
-        else {
-            2
-        }
+    if ((s1.value == s2.value) & (s1.value == 0)){
+        0
     }
     else {
-        
-        if (s1.value > s2.value){
+        if (s1.sign != s2.sign){
             if (s1.sign){
                 1
             }
@@ -182,21 +176,33 @@ fn compareSigned(s1: Signed, s2: Signed) -> u32 {
             }
         }
         else {
-            if (s1.value != s2.value){
+            
+            if (s1.value > s2.value){
                 if (s1.sign){
-                    2
+                    1
                 }
                 else {
-                    1
+                    2
                 }
             }
             else {
-                0
+                if (s1.value != s2.value){
+                    if (s1.sign){
+                        2
+                    }
+                    else {
+                        1
+                    }
+                }
+                else {
+                    0
+                }
+                
             }
             
         }
-        
     }
+    
 }
 
 
@@ -406,4 +412,12 @@ fn test_rshift_negative_signed(){
     let s = rightShiftSigned(s1, 3);
     assert (s.value == 3);
     assert (!s.sign);
+}
+
+#[test]
+fn test_zero_equivalence() {
+    let s1 = toSigned(false, 0);
+    let s2 = toSigned(true, 0);
+    let cmp = compareSigned(s1, s2);
+    assert (cmp == 0);
 }
