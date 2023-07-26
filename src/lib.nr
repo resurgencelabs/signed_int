@@ -378,7 +378,7 @@ fn test_mod_negative_2_signed(){
 }
 
 #[test]
-fn test_lshit_signed(){
+fn test_lshift_signed(){
     let s1 = toSigned(true, 6);
     
     let s = leftShiftSigned(s1, 2);
@@ -397,7 +397,7 @@ fn test_lshift_negative_signed(){
 
 
 #[test]
-fn test_rshit_signed(){
+fn test_rshift_signed(){
     let s1 = toSigned(true, 21);
     
     let s = rightShiftSigned(s1, 2);
