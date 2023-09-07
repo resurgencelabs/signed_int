@@ -121,6 +121,8 @@ fn modSigned(s1: Signed, s2: Signed) -> Signed {
     }
 }
 
+
+// Returns the Square of the Given Signed Integer
 fn squareSigned(s: Signed) -> Signed {
 
     
@@ -132,6 +134,8 @@ fn squareSigned(s: Signed) -> Signed {
     
 }
 
+
+// Returns the Cube of the Given Signed Integer
 fn cubeSigned(s: Signed) -> Signed {
 
     
@@ -141,6 +145,21 @@ fn cubeSigned(s: Signed) -> Signed {
         };
         sn
     
+}
+
+
+// Obtain said Signed Integer raised to a given power. Unconstrained
+unconstrained fn powerSigned(s: Signed, k: u32) -> Signed {
+    assert (k > 0);
+    let mut val = 1;
+    for i in 1..(k+1) {
+        val = val * s.value;
+    }
+    let sn = Signed {
+        sign: ((k % 2 == 0) | (s.sign)),
+        value: val,
+    };
+    sn
 }
 
 fn negativeSigned(s: Signed) -> Signed {
@@ -420,4 +439,21 @@ fn test_zero_equivalence() {
     let s2 = toSigned(true, 0);
     let cmp = compareSigned(s1, s2);
     assert (cmp == 0);
+}
+
+
+#[test]
+fn test_power_positive() {
+    let s = toSigned(true, 2);
+    let p = powerSigned(s, 3);
+    assert (p.value == 8);
+    assert (p.sign);
+}
+
+#[test]
+fn test_power_negative() {
+    let s = toSigned(false, 2);
+    let p = powerSigned(s, 5);
+    assert (p.value == 32);
+    assert (!p.sign);
 }
