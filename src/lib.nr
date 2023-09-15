@@ -1,3 +1,5 @@
+use dep::std;
+
 struct Signed {
     sign: bool,
     value: u32,
@@ -158,6 +160,29 @@ unconstrained fn powerSigned(s: Signed, k: u32) -> Signed {
     let sn = Signed {
         sign: ((k % 2 == 0) | (s.sign)),
         value: val,
+    };
+    sn
+}
+
+// Returns the factorial of the Signed Integer, unless it is negative. Unconstrained
+unconstrained fn factorialSigned(s: Signed) -> Signed {
+    assert ((s.sign) | (s.value == 0));
+    let mut k = 0;
+    if (s.value == 0){
+        k = 1;
+    }
+    else {
+        k = s.value;
+    }
+    let mut prod = 1;
+    
+    for i in 1..(k+1){
+        prod = prod * i;
+    }
+    
+    let sn = Signed {
+        sign: true,
+        value: prod,
     };
     sn
 }
@@ -351,6 +376,14 @@ fn test_div_signed(){
     assert (s.value == 0);
 }
 
+#[test(should_fail)]
+fn test_div_signed2(){
+    let s1 = toSigned(true, 5);
+    let s2 = toSigned(false, 0);
+    let s = divideSigned(s1, s2);
+    
+}
+
 
 #[test]
 fn test_div_negative_signed(){
@@ -456,4 +489,17 @@ fn test_power_negative() {
     let p = powerSigned(s, 5);
     assert (p.value == 32);
     assert (!p.sign);
+}
+
+#[test]
+fn test_factorial() {
+    let s = toSigned(true, 6);
+    let f = factorialSigned(s);
+    assert (f.value == 720);
+}
+
+#[test(should_fail)]
+fn test_factorial2() {
+    let s = toSigned(false, 6);
+    let f = factorialSigned(s);
 }
